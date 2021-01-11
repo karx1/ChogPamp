@@ -16,6 +16,7 @@ class customBot(commands.Bot):
         async for guild in self.fetch_guilds():
             print(guild.name)
         self.load_extension("task")
+        self.load_extension("jishaku")
 
         print(
             discord.utils.oauth_url(
