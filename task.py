@@ -20,14 +20,14 @@ from io import BytesIO
 class TaskCog(commands.Cog):
     def __init__(self, client):
         self.bot = client
-        # self.pogger.start()
+        self.pogger.start()
     
-    # def cog_unload(self):
-    #     self.printer.cancel()
+    def cog_unload(self):
+        self.pogger.cancel()
 
-    # @tasks.loop(hours=24)
-    @commands.command()
-    async def pogger(self, ctx):
+    @tasks.loop(hours=24)
+    # @commands.command()
+    async def pogger(self):
         async with self.bot.http2.get("https://pogchamp.today/data.json") as resp:
             data = await resp.json()
             url = data["img"]["medium"]
@@ -40,12 +40,13 @@ class TaskCog(commands.Cog):
                 emojis = await guild.fetch_emojis()
                 emoji = discord.utils.get(emojis, name="pog")
                 if emoji:
+                    print(emoji)
                     await emoji.delete()
 
                 print("creating...")
                 emoji = await guild.create_custom_emoji(name="pog", image=buff.getvalue())
                 if emoji:
-                    await ctx.send(f"{emoji}")
+                    print(emoji)
 
 
 def setup(client):
