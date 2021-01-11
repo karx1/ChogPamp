@@ -17,11 +17,12 @@ from io import BytesIO
 #         print(self.index)
 #         self.index += 1
 
+
 class TaskCog(commands.Cog):
     def __init__(self, client):
         self.bot = client
         self.pogger.start()
-    
+
     def cog_unload(self):
         self.pogger.cancel()
 
@@ -35,7 +36,7 @@ class TaskCog(commands.Cog):
             buff = BytesIO()
             img.save(buff, format="png")
             buff.seek(0)
-            
+
             async for guild in self.bot.fetch_guilds():
                 emojis = await guild.fetch_emojis()
                 emoji = discord.utils.get(emojis, name="pog")
@@ -44,7 +45,9 @@ class TaskCog(commands.Cog):
                     await emoji.delete()
 
                 print("creating...")
-                emoji = await guild.create_custom_emoji(name="pog", image=buff.getvalue())
+                emoji = await guild.create_custom_emoji(
+                    name="pog", image=buff.getvalue()
+                )
                 if emoji:
                     print(emoji)
 
