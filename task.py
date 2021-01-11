@@ -30,12 +30,23 @@ class TaskCog(commands.Cog):
     async def pogger(self, ctx):
         async with self.bot.http2.get("https://pogchamp.today/data.json") as resp:
             data = await resp.json()
-            img = await process_url(data["img"]["medium"], self.bot.http2)
+            url = data["img"]["medium"]
+            img = await process_url(url, self.bot.http2)
             buff = BytesIO()
             img.save(buff, format="png")
             buff.seek(0)
-            await ctx.send(file=discord.File(buff, "out.png"))
             
+            async for guild in self.bot.fetch_guilds():
+                emojis = await guild.fetch_emojis()
+                emoji = discord.utils.get(emojis, name="pog")
+                if emoji:
+                    await emoji.delete()
+
+                print("creating...")
+                emoji = await guild.create_custom_emoji(name="pog", image=buff.getvalue())
+                if emoji:
+                    await ctx.send(f"{emoji}")
+
 
 def setup(client):
     client.add_cog(TaskCog(client))
