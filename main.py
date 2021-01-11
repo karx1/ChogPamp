@@ -25,7 +25,7 @@ class customBot(commands.Bot):
         )
 
 
-bot = customBot(command_prefix="pog_", intents=discord.Intents.all())
+bot = customBot(command_prefix="pog_", description="Changes the server's pog emote every 24 hours.", intents=discord.Intents.all())
 
 token_file = open("token.txt", "r")
 token_string = token_file.read()
