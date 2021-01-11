@@ -50,6 +50,31 @@ class TaskCog(commands.Cog):
                 )
                 if emoji:
                     print(emoji)
+    
+    @commands.command()
+    async def fetch(self, ctx):
+        async with self.bot.http2.get("https://pogchamp.today/data.json") as resp:
+            data = await resp.json()
+            url = data["img"]["medium"]
+            img = await process_url(url, self.bot.http2)
+            buff = BytesIO()
+            img.save(buff, format="png")
+            buff.seek(0)
+
+            guild = ctx.guild
+
+            emojis = await guild.fetch_emojis()
+            emoji = discord.utils.get(emojis, name="pog")
+            if emoji:
+                print(emoji)
+                await emoji.delete()
+
+            print("creating...")
+            emoji = await guild.create_custom_emoji(
+                name="pog", image=buff.getvalue()
+            )
+            if emoji:
+                print(emoji)
 
 
 def setup(client):
