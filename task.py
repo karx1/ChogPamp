@@ -75,6 +75,7 @@ class TaskCog(commands.Cog):
             )
             if emoji:
                 print(emoji)
+                await ctx.send(f"{emoji}")
 
 
 def setup(client):
