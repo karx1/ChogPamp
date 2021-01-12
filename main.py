@@ -23,6 +23,12 @@ class customBot(commands.Bot):
                 self.user.id, permissions=discord.Permissions(1073742848)
             )
         )
+    
+    async def on_command_error(self, ctx, error):
+
+	error = getattr(error, "original", error)
+	if isinstance(error, commands.CheckFailure):
+	    await ctx.send("You can't use this command!\nYou need `Manage Emoji` permission to run this.")
 
 
 bot = customBot(command_prefix="pog_", description="Changes the server's pog emote every 24 hours.", intents=discord.Intents.all())
