@@ -36,6 +36,9 @@ class TaskCog(commands.Cog):
             buff = BytesIO()
             img.save(buff, format="png")
             buff.seek(0)
+            bytes = buff.getvalue()
+
+            await self.bot.user.edit(avatar=bytes)
 
             async for guild in self.bot.fetch_guilds():
                 emojis = await guild.fetch_emojis()
@@ -45,9 +48,7 @@ class TaskCog(commands.Cog):
                     await emoji.delete()
 
                 print("creating...")
-                emoji = await guild.create_custom_emoji(
-                    name="pog", image=buff.getvalue()
-                )
+                emoji = await guild.create_custom_emoji(name="pog", image=bytes)
                 if emoji:
                     print(emoji)
 
@@ -61,6 +62,9 @@ class TaskCog(commands.Cog):
             buff = BytesIO()
             img.save(buff, format="png")
             buff.seek(0)
+            bytes = buff.getvalue()
+
+            await self.bot.user.edit(avatar=bytes)
 
             guild = ctx.guild
 
@@ -71,7 +75,9 @@ class TaskCog(commands.Cog):
                 await emoji.delete()
 
             print("creating...")
-            emoji = await guild.create_custom_emoji(name="pog", image=buff.getvalue(), reason=f"Fetched by {ctx.author.name}")
+            emoji = await guild.create_custom_emoji(
+                name="pog", image=bytes, reason=f"Fetched by {ctx.author.name}"
+            )
             if emoji:
                 print(emoji)
                 await ctx.send(f"{emoji}")
