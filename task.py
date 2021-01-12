@@ -71,7 +71,7 @@ class TaskCog(commands.Cog):
                 await emoji.delete()
 
             print("creating...")
-            emoji = await guild.create_custom_emoji(name="pog", image=buff.getvalue())
+            emoji = await guild.create_custom_emoji(name="pog", image=buff.getvalue(), reason=f"Fetched by {ctx.author.name}")
             if emoji:
                 print(emoji)
                 await ctx.send(f"{emoji}")
