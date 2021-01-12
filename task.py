@@ -50,7 +50,7 @@ class TaskCog(commands.Cog):
                 )
                 if emoji:
                     print(emoji)
-    
+
     @commands.command()
     @commands.has_permissions(manage_emojis=True)
     async def fetch(self, ctx):
@@ -71,9 +71,7 @@ class TaskCog(commands.Cog):
                 await emoji.delete()
 
             print("creating...")
-            emoji = await guild.create_custom_emoji(
-                name="pog", image=buff.getvalue()
-            )
+            emoji = await guild.create_custom_emoji(name="pog", image=buff.getvalue())
             if emoji:
                 print(emoji)
                 await ctx.send(f"{emoji}")
