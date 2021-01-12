@@ -52,6 +52,7 @@ class TaskCog(commands.Cog):
                     print(emoji)
     
     @commands.command()
+    @commands.has_permissions(manage_emojis=True)
     async def fetch(self, ctx):
         async with self.bot.http2.get("https://pogchamp.today/data.json") as resp:
             data = await resp.json()
